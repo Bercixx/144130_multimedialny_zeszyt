@@ -39,7 +39,7 @@
 						<label for="typ" class="control-label"><span class="text-danger">*</span>Typ</label>
 						<div class="form-group">
 
-                            <?= form_dropdown('typ',['admin'=>'Admin','opiekun'=>'Opiekun','podopieczny'=>'Podopieczny'],($this->input->post('typ') ? $this->input->post('typ') : $uzytkownik['typ']), 'class="form-control" id="typ"') ?>
+                            <?= form_dropdown('typ',['admin'=>'Admin','opiekun'=>'Opiekun','rodzic'=>'Rodzic'],($this->input->post('typ') ? $this->input->post('typ') : $uzytkownik['typ']), 'class="form-control" id="typ"') ?>
 							<span class="text-danger"><?php echo form_error('typ');?></span>
 						</div>
 					</div>

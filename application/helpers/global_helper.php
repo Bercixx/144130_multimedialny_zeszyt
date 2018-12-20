@@ -55,9 +55,9 @@ function czyOpiekun()
     return false;
 }
 
-function czyPodopieczny()
+function czyRodzic()
 {
-    if(zalogowanyUzytkownik('typ')==='podopieczny')
+    if(zalogowanyUzytkownik('typ')==='rodzic')
     {
         return true;
     }
