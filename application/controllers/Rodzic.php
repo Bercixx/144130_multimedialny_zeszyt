@@ -5,6 +5,7 @@ class Rodzic extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Rodzic_model');
+        $this->load->model('Kalendarz_model');
         if(!czyZalogowany())
         {
             redirect(site_url('autoryzacja/logowanie'));
@@ -22,18 +23,12 @@ class Rodzic extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
-    function kalendarz()
-    {   
-        
-        $data['_view'] = 'rodzic/kalendarz';
-        $this->load->view('layouts/main',$data);
-        
-    }  
+    
+   
     
     function lekarstwa_lista()
     {   
         $data['lekarstwa'] = $this->Rodzic_model->pobierz_lekarstwa(zalogowanyUzytkownik('id'));
-            
         $data['_view'] = 'rodzic/lekarstwa_lista';
         $this->load->view('layouts/main',$data);
         
@@ -46,6 +41,9 @@ class Rodzic extends CI_Controller{
        
         $this->load->library('form_validation');
 
+        $data=$this->Rodzic_model->pobierz_id_dziecka(zalogowanyUzytkownik('id')); 
+
+
         $this->form_validation->set_rules('nazwa','Nazwa','required|max_length[255]');
         $this->form_validation->set_rules('dawkowanie','Dawkowanie','required|max_length[255]');
         $this->form_validation->set_rules('zalecenia','Zalecenia','max_length[255]');
@@ -56,7 +54,7 @@ class Rodzic extends CI_Controller{
                         'nazwa' => $this->input->post('nazwa'),
                         'dawkowanie' => $this->input->post('dawkowanie'),
                         'zalecenia' => $this->input->post('zalecenia'),
-                        'id_podopieczny' => 1,
+                        'id_podopieczny' => $data[0]['id'],
                 );
 
                 $this->Rodzic_model->dodaj_lekarstwo($params);            
@@ -124,7 +122,10 @@ class Rodzic extends CI_Controller{
         $data['_view'] = 'rodzic/zajecia';
         $this->load->view('layouts/main',$data);
         
-    }  
+    }
+    
+ 
+    
 
 
 
@@ -137,21 +138,72 @@ class Rodzic extends CI_Controller{
 
     }
 
-    function opiekunowie_email()
-    {   
-        
-        $data['_view'] = 'rodzic/opiekunowie_email';
-        $this->load->view('layouts/main',$data);
-
-    }
 
     function uwagi()
     {   
-        
+        $data['uwagi'] = $this->Rodzic_model->pobierz_uwagi(zalogowanyUzytkownik('id'));
         $data['_view'] = 'rodzic/uwagi';
         $this->load->view('layouts/main',$data);
         
     }
+
+    function komentarz($id)
+    {   
+        
+        $data['uwagi'] = $this->Rodzic_model->pobierz_komentarz(zalogowanyUzytkownik('id'),$id);
+        $params = $this->input->post('koment');
+     
+        if(!empty($this->input->post('koment')))
+        {
+            $this->Rodzic_model->dodaj_komentarz($params,$id);
+            redirect('rodzic/komentarz/'. $id);
+        }
+
+        $data['_view'] = 'rodzic/komentarz';
+        $this->load->view('layouts/main',$data);
+        
+    }
+
+    function dziecko()
+    {   
+        $data['dziecko']=$this->Rodzic_model->pobierz_dziecko(zalogowanyUzytkownik('id')); 
+        $data['_view'] = 'rodzic/dziecko';
+        $this->load->view('layouts/main',$data);
+        
+    }
+
+    function dziecko_dodaj()
+    {   
+        $this->load->library('form_validation');
+        $data['dziecko']=$this->Rodzic_model->pobierz_dziecko(zalogowanyUzytkownik('id'));
+        
+        $data['opiekun']=$this->Rodzic_model->pobierz_lista_opiekunow();
+
+        $this->form_validation->set_rules('imie','Imie','required|max_length[255]');
+        $this->form_validation->set_rules('nazwisko','Nazwisko','required|max_length[255]');
+        $this->form_validation->set_rules('opiekun','Opiekun','required');
+
+        if($this->form_validation->run())     
+            {   
+                $params = array(
+                        'nazwisko' => $this->input->post('nazwisko')." ".$this->input->post('imie'),
+                        'id_opiekun' => $this->input->post('opiekun'),
+                        'id_rodzic' => zalogowanyUzytkownik('id'),
+                        'nr_grupy' => $this->input->post('nr_grupy'),
+                );
+
+                $this->Rodzic_model->dodaj_dziecko($params);            
+                redirect('rodzic/dziecko');
+            }
+            else
+        {
+        $data['_view'] = 'rodzic/dziecko_dodaj';
+        $this->load->view('layouts/main',$data);
+        }
+        
+    }
+        
+    
 
 
     

@@ -1,6 +1,4 @@
-<?php var_dump($podopieczni);
-    var_dump($opiekun_id);
-    ?>
+
 
 <div class="row">
     <div class="col-md-12">
@@ -13,14 +11,15 @@
                 <table class="table table-striped">
                     <tr>
 						<th>Nazwisko</th>
-						<th>PESEL</th>
+						<th>Numer grupy</th>
 
                     </tr>
                     <?php foreach($podopieczni as $p){ ?>
                     <tr>
 						<td><?php echo $p['nazwisko']; ?></td>
-						<td><?php echo $p['PESEL']; ?></td>
-						
+						<td><?php echo $p['nr_grupy']; ?></td>
+						<td>
+                        </td>
                     </tr>
                     <?php } ?>
                 </table>

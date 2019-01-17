@@ -40,14 +40,17 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
-                <div class="col-xs-8">
+                <div class="col-xs-7">
                 </div>
                 <!-- /.col -->
-                <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                <div class="col-xs-5">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Zaloguj się</button>
                 </div>
                 <!-- /.col -->
+
+                <a href="<?= site_url('autoryzacja/rejestrowanie') ?>" class="text-center">Zarejestruj się</a>   
             </div>
+
         </form>
 
     </div>

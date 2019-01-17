@@ -27,6 +27,7 @@
                                 <input type="text" name="zalecenia" value="<?php echo ($this->input->post('zalecenia')); ?>" class="form-control" id="zalecenia" />
                                 <span class="text-danger"><?php echo form_error('zalecenia');?></span>
                                 </div>
+                                
 					</div>
 				</div>
 			</div>
